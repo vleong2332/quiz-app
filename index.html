@@ -2,9 +2,56 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>FEWD Quiz App</title>
+	<!-- CSS -->
+	<!-- Scripts -->
 </head>
 <body>
-	
+	<header>
+		<div class="container">
+			<h1>Curriculum Recap Quiz</h1>
+		</div>
+	</header>
+
+	<slide id="start">
+		<div class="tight_container">
+			<div class="instruction">
+				<h2>Congratulations!</h2>
+				<p>You have finished units 1, 2, and 3. Before you proceed to more exciting materials in unit 4, take a moment to answer a few questions about what you have learned so far.</p>
+			</div>
+		</div>
+	</slide>
+
+	<slide id="q1" class="questions">
+		<div class="container">
+			<div id="status_bar">
+				<h3>Question</h3>
+				<p><span id="current_question">1</span> of 5</p>
+				<h3>Score</h3>
+				<p><span id="current_score">0</span></p>
+			</div>
+			<div class="qna">
+				<div class="question">
+					<p>Topic: <span id="topic_content">HTML</span></p>
+					<p class="question">Almost all tags need to be closed. For example, &#60div&#62 must be closed with &#60/div&#62. However, there are few exclusions to the rule. Which one of these tags does not need closing (self-closing)?</p>
+				</div>
+				<div class="mult_choice">
+					<ul class="choices">
+						<li>&#60p&#62</li>
+						<li>&#60img&#62</li>
+						<li>&#60h1&#62</li>
+						<li>&#60button&#62</li>
+					</ul>
+				</div>
+				<div class="explanation">
+					<h4 id="feedback">Correct!</h4>
+					<p>&#60img&#62 is one of the self-closing tags. Usually, you would write it as &#60img src="some_url.pic" /&#62. See the list of self-closing tags right <a href="#" target="_blank">here</a>.
+				</div>
+			</div>
+		</div>
+	</slide>
+
+	<button type="button">Start</button>
+
 </body>
 </html>
