@@ -4,5 +4,5 @@
 font-family: 'Myriad Pro Bold';
 font-style: normal;
 font-weight: normal;
-src: local('../font/Myriad Pro Bold'), url('../font/MYRIADPRO-BOLD.woff') format('woff');
+src: local('../font/MyriadPro-Bold'), url('../font/MyriadPro-Bold.woff') format('woff');
 }
