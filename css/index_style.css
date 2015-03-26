@@ -1,0 +1,123 @@
+body {
+	background: #515151;
+}
+.container {
+	width: 1200px;
+	margin: 0 auto;
+}
+.hidden {
+	display: none;
+}
+header {
+	text-align: center;
+}
+	h1 {
+		font-family: 'Myriad Pro Bold', "Arial Bold", sans-serif;
+		font-size: 4rem;
+		color: #33FF99;
+	}
+	header .container {
+		padding: 3rem 0;
+		background: rgba(255, 255, 255, 0.127);
+		border-radius: 0 0 30px 30px;
+	}
+slide {
+	display: block;
+}
+#questions {
+	padding-top: 2rem;
+	font-family: 'Letter Gothic Std';
+	color: #FFFFFF;
+	font-size: 1.5rem;
+}
+	#questions .container {
+		position: relative;
+	}
+		#status_bar {
+			display: inline-block;
+			float: right;
+			width: 20%;
+			height: 100%;
+			padding-left: 1rem;
+			border-left: 1px solid rgba(0,0,0,0.15);
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+			h3 {
+				font-family: 'Lato';
+				color: #FFCB35;
+				margin-bottom: 1.5rem;
+			}
+			#status_bar p {
+				margin-bottom: 2rem;
+			}
+		#qna {
+			width: 80%;
+		}
+			#question p {
+				margin-bottom: 1.5rem;
+			}
+			#choices li {
+				margin: 0.75rem 0.75rem 0.75rem 0;
+				padding: 0.75rem 0;
+				border-radius: 3px;
+				transition: background 0.25s ease;
+			}
+				li:hover {
+					background: rgba(74,150,255,0.15);
+				}
+				#choices li:before {
+					content : "";
+					display: inline-block;
+					margin: 0 1rem;
+					height: 1rem;
+					width: 1rem;
+					padding: 0.35rem;
+					vertical-align: middle;
+					border-radius: 100%;
+					border: 1px dashed #FFCB35;
+					background-clip: content-box;
+				}
+				li.selected::before {
+					background-color: #FFCB35;
+				}
+h4 {
+	font-family: 'Lato Bold';
+}
+#button_container {
+	width: 80%;
+}
+	.button {
+		width: 13rem;
+		position: relative;
+		margin: 3.2rem auto 1rem;
+		padding: 16px 0;
+		text-align: center;
+		background: #3797FF;
+		color: #FFFFFF;
+		border-radius: 10px 0 0 10px;
+		cursor:pointer;
+		transition: background 0.5s ease;
+	}
+	.button::after {
+	  content: "";
+	  position: absolute;
+	  top: 0;
+	  left: 100%;
+	  border-color: transparent #3797FF;
+	  border-style: solid;
+	  border-width: 30px 0 30px 30px;
+	  transition: border-color 0.5s ease;
+	}
+	.button:hover {
+		background: #1575EE;
+	}
+	.button:hover::after {
+		border-color: transparent #1575EE;
+	}
+	.button p {
+		vertical-align: middle;
+		font-family: "Lato";
+		font-size: 28px;
+	}

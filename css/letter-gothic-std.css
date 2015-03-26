@@ -1,0 +1,10 @@
+@font-face {
+	font-family: 'Letter Gothic Std';
+	src: local('../font/Letter Gothic Std'), url('../font/Letter Gothic Std.woff') format('woff');
+}
+/* use this class to attach this font to any element i.e. <p class="fontsforweb_fontid_3202">Text with this font applied</p> */
+.fontsforweb_fontid_3202 {
+	font-family: 'LetterGothicStd' !important;
+}
+
+/* Font downloaded from FontsForWeb.com */
