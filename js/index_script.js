@@ -107,13 +107,15 @@ quizApp.bindUI = function() {
 
 	function setUserChoice(e) {
 		var x = e.target.parentNode.childNodes;
-		var answers = [];
-		for (var i = 0; i < x.length; i++)
-		{
-		 	if (x[i].nodeName == "li" && x[i].className == "selected") {
-		 		console.log("if is true");
-		 	}
-		}
+		// for (var i = 0; i < x.length; i++)
+		// {
+		//  	if (x[i].nodeName == "li")
+		//  	  x[i].className == "selected") {
+		//  		console.log("if is true");
+		//  		quizApp.userChoice = 
+		//  	}
+		//}
+		console.log(x);
 	}
 
 	var ul = document.getElementById("choices")
