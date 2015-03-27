@@ -11,6 +11,8 @@
 	<link rel="stylesheet" type="text/css" href="css/reset.css" />
 	<link rel="stylesheet" type="text/css" href="css/index_style.css" />
 	<!-- Scripts -->
+	<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+	<script type="text/javascript" src="js/index_script.js"></script>
 </head>
 <body>
 	<header>
@@ -20,17 +22,28 @@
 	</header>
 
 	<!-- Start page -->
-	<slide id="start" class="hidden">
-		<div class="container tight">
-			<div class="instruction">
+	<slide id="start" class="">
+		<div class="container">
+			<div class="tight">
 				<h2>Congratulations!</h2>
 				<p>You havefinished units 1, 2, and 3. Before you proceed to more exciting materials in unit 4, take a moment to answer a few questions about what you have learned so far.</p>
 			</div>
 		</div>
 	</slide>
 
-	<!-- Questions -->
-	<slide id="questions">
+	<!-- Result page -->
+	<slide id="result" class="hidden">
+		<div class="container">
+			<div class="tight">
+				<h2>Your score is</h2>
+				<h2><span id="total_score">3</span> / 5</h2>
+				<p id="recommendation">Feel free to move to the next unit.</p>
+			</div>
+		</div>
+	</slide>
+
+	<!-- Questions page -->
+	<slide id="questions" class="invisible">
 		<div class="container">
 			<!-- Status Bar to the right -->
 			<div id="status_bar">
@@ -47,7 +60,7 @@
 				</div>
 				<!-- Alternating section between choices and explanation -->
 				<div id="alternate">
-					<div id="mult_choice">
+					<div id="mult_choice" class="">
 						<ul id="choices">
 							<li class="selected">&#60p&#62</li>
 							<li>&#60img&#62</li>
@@ -55,9 +68,9 @@
 							<li>&#60button&#62</li>
 						</ul>
 					</div>
-					<div id="explanation" class="hidden">
-						<h4 id="feedback">Correct!</h4>
-						<p>&#60img&#62 is one of the self-closing tags. Usually, you would write it as &#60img src="some_url.pic" /&#62. See the list of self-closing tags right <a href="#" target="_blank">here</a>.</p>
+					<div id="explanation" class="">
+						<h4 id="feedback" class="invisible">Correct!</h4>
+						<p class="invisible">&#60img&#62 is one of the self-closing tags. Usually, you would write it as &#60img src="some_url.pic" /&#62. See the list of self-closing tags right <a href="#" target="_blank">here</a>.</p>
 					</div>
 				</div>
 			</div>
