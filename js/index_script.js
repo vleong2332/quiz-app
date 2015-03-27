@@ -99,8 +99,8 @@ quizApp.bindUI = function() {
 	var button = document.getElementById("button");
 	button.addEventListener("click", processClick, false);
 
+	// Change the appearance of selected answer's icon
 	function selectAnswer(e) {
-		// Clear class name from every answer
 		var x = e.target.parentNode.childNodes;
 		for (var i = 0; i < x.length; i++) {
 			if (x[i].nodeName == "LI")
@@ -112,12 +112,12 @@ quizApp.bindUI = function() {
 		e.target.className = "selected";
 	}
 
+	// Store which answer that user clicks
 	function setUserChoice(e) {
-		// Store which answer that user clicks
 		userChoice = e.target.id;
 	}
 
-	function processClick(e) {
+	function processClick() {
 		console.log("processClick fired");
 		switch(quizApp.buttonText) {
 			case "Start":
@@ -128,41 +128,25 @@ quizApp.bindUI = function() {
 				break;
 			case "Submit":
 				console.log("processClick: Submit");
-				processInput();
+				quizApp.processInput();
 				quizApp.buttonText = "Next";
-				// updateButton(quizApp.buttonText);
+				quizApp.updateButton(quizApp.buttonText);
 				break;
 			default:
 				console.log("Button clicked, but text is invalid.");
 				console.log(quizApp.buttonText);
 		}
 	}
-
-	function processInput(e) {
-		console.log("processInput fired");
-		console.log("userChoice is " + quizApp.userChoice);
-		console.log("answer is " + quizApp.questions[quizApp.currentQuestion].answer);
-		if (quizApp.userChoice == quizApp.questions[quizApp.currentQuestion].answer)
-		{
-			console.log("processInput true");
-			quizApp.totalCorrect++;
-			document.getElementById("feedback").innerHTML = "Correct!";
-		}
-		else
-		{
-			console.log("processInput false");
-		}
-		quizApp.render().renderExplanation();
-	}
 };
 
+// Decides which slide to show
 quizApp.render = function() {
 	// If user is at the very beginning...
 	if (quizApp.currentQuestion == 0)
 	{
 		// ...show start slide
 		renderStart();
-		renderButton(quizApp.buttonText);
+		quizApp.renderButton(quizApp.buttonText);
 	}
 	// If user is at the very end...
 	//else if (currentQuestion == totalStages.length + 1)
@@ -174,8 +158,8 @@ quizApp.render = function() {
 	else
 	{
 		renderQuestions();
-		updateButton(quizApp.buttonText);
-		renderButton();
+		quizApp.updateButton(quizApp.buttonText);
+		quizApp.renderButton();
 	}
 
 	// Show intro/starting slide
@@ -185,7 +169,7 @@ quizApp.render = function() {
 		document.getElementById("questions").className = "invisible";
 	}
 
-	 function showResult() {
+	 function renderResult() {
 	 	document.getElementById("start").className = "hidden";
 	 	document.getElementById("result").className = "";
 	 	document.getElementById("questions").className = "invisible";
@@ -197,41 +181,73 @@ quizApp.render = function() {
 		document.getElementById("result").className = "hidden";
 		document.getElementById("questions").className = "";
 	}
+};
 
-	// Update button text on DOM
-	function updateButton(text) {
-		document.getElementById("button_text").innerHTML = text;
+// Check wether or not user's answer is correct
+quizApp.processInput = function() {
+	console.log("processInput fired");
+	console.log("userChoice is " + quizApp.userChoice);
+	console.log("answer is " + quizApp.questions[quizApp.currentQuestion].answer);
+	if (quizApp.userChoice == quizApp.questions[quizApp.currentQuestion].answer)
+	{
+		console.log("processInput true");
+		quizApp.totalCorrect++;
+		document.getElementById("feedback").innerHTML = "Correct!";
 	}
-
-	// Display appropriate button style according to the text
-	function renderButton() {
-		switch (quizApp.buttonText) {
-			case "Start":
-				document.getElementById("button_container").style.width = "100%";
-				document.getElementById("button_container").className = ""; /* First time, button was invisible */
-				break;
-			case "Submit":
-				document.getElementById("button_container").style.width = "80%";
-				break;
-			case "Next":
-				document.getElementById("button_text").innerHTML = text;
-				break;
-			case "Start over":
-				document.getElementById("button_container").style.width = "100%";
-				document.getElementById("button_container").className = "";
-				break;
-			default:
-				console.log("Invalid text for button.");
-		}
+	else
+	{
+		console.log("processInput false");
+		document.getElementById("feedback").innerHTML = "Incorrect";
 	}
+	quizApp.renderExplanation();
+}
 
-	function renderExplanation() {
-		console.log("renderExplanation fired");
+// Update the text inside the blue button
+quizApp.updateButton = function(text) {
+	document.getElementById("button_text").innerHTML = text;
+};
+
+// Display appropriate button style according to the text
+quizApp.renderButton = function() {
+	switch (quizApp.buttonText) {
+		case "Start":
+			document.getElementById("button_container").style.width = "100%";
+			document.getElementById("button_container").className = ""; /* First time, button was invisible */
+			break;
+		case "Submit":
+			document.getElementById("button_container").style.width = "80%";
+			break;
+		case "Next":
+			document.getElementById("button_text").innerHTML = text;
+			break;
+		case "Start over":
+			document.getElementById("button_container").style.width = "100%";
+			document.getElementById("button_container").className = "";
+			break;
+		default:
+			console.log("Invalid text for button.");
+	}
+};
+
+// Display explanation by modifying its style
+quizApp.renderExplanation = function() {
+	var top = document.getElementById("explanation").style.top;
+	console.log("renderExplanation fired");
+	console.log(top);
+	if (top == 0)
+	{
+
+	}
+	else
+	{
 		document.getElementById("explanation").style.top = "0";
 		document.getElementById("feedback").className = "";
 		document.getElementById("explanation_p").className = "";
 	}
 };
+
+
+
 
 $(document).ready(function() {
 	quizApp.bindUI();
