@@ -86,46 +86,81 @@ quizApp.questions = [
 	}
 ];
 
+
 // VARIABLES
 quizApp.totalStages = quizApp.questions.length + 2;
 quizApp.currentQuestion = 0;
 quizApp.totalCorrect = 0;
 quizApp.userChoice = -1;
 
+
 // METHODS
 quizApp.bindUI = function() {
-
-	function selectAnswer(e) {
-		// Clear class name from every answer
-		var x = e.target.parentNode.childNodes;
-		for (var i = 0; i < x.length; i++) {
-			x[i].className = "";
-		}
-		// Change the class name of the answer that user clicks
-		e.target.className = "selected";
-	}
-
-	function setUserChoice(e) {
-		var x = e.target.parentNode.childNodes;
-		// for (var i = 0; i < x.length; i++)
-		// {
-		//  	if (x[i].nodeName == "li")
-		//  	  x[i].className == "selected") {
-		//  		console.log("if is true");
-		//  		quizApp.userChoice = 
-		//  	}
-		//}
-		console.log(x);
-	}
-
+	// Handle click events on the multiple choice
 	var ul = document.getElementById("choices")
 	var li = ul.getElementsByTagName("li");
 	for (var i = 0; i < li.length; i++) {
 		li[i].addEventListener("click", selectAnswer, false);
 		li[i].addEventListener("click", setUserChoice, false);
 	}
+
+	function selectAnswer(e) {
+		// Clear class name from every answer
+		var x = e.target.parentNode.childNodes;
+		for (var i = 0; i < x.length; i++) {
+			if (x[i].nodeName == "LI")
+			{ 
+				x[i].className = "";
+			}
+		}
+		// Change the class name of the answer that user clicks
+		e.target.className = "selected";
+	}
+
+	function setUserChoice(e) {
+		// Store which answer that user clicks
+		userChoice = e.target.id;
+	}
+};
+
+quizApp.render = function() {
+	// If user is at the very beginning...
+	if (quizApp.currentQuestion == 0)
+	{
+		// ...show start slide
+		showStart();
+	}
+	// If user is at the very end...
+	//else if (currentQuestion == totalStages.length + 1)
+	//{
+		// ...show result slide
+		//showResult();
+	//}
+	// Show questions slide by default
+	//else
+	//{
+		//showQuestions();
+	//}
+
+	function showStart() {
+		document.getElementById("start").className = "";
+		document.getElementById("result").className = "hidden";
+		document.getElementById("questions").className = "invisible";
+	}
+
+	// function showResult() {
+	// 	document.getElementById("start").className = "hidden";
+	// 	document.getElementById("result").className = "";
+	// 	document.getElementById("questions").className = "invisible";
+	// }
+
+	// function showQuestions() {
+	// 	document.getElementById("start").className = "hidden";
+	// 	document.getElementById("result").className = "hidden";
+	// 	document.getElementById("questions").className = "";
+	// }
 };
 
 $(document).ready(function() {
-	quizApp.bindUI();
+	//quizApp.bindUI();
 });
