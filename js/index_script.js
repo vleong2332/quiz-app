@@ -87,20 +87,41 @@ quizApp.questions = [
 ];
 
 // VARIABLES
-quizApp.totalStages = quizApp.questions.length + 2,
-quizApp.currentQuestion = 0,
-quizApp.totalCorrect = 0,
+quizApp.totalStages = quizApp.questions.length + 2;
+quizApp.currentQuestion = 0;
+quizApp.totalCorrect = 0;
+quizApp.userChoice = -1;
 
 // METHODS
 quizApp.bindUI = function() {
 
-	function selectAnswer(li) {
-		console.log(li);
+	function selectAnswer(e) {
+		// Clear class name from every answer
+		var x = e.target.parentNode.childNodes;
+		for (var i = 0; i < x.length; i++) {
+			x[i].className = "";
+		}
+		// Change the class name of the answer that user clicks
+		e.target.className = "selected";
+	}
+
+	function setUserChoice(e) {
+		var x = e.target.parentNode.childNodes;
+		var answers = [];
+		for (var i = 0; i < x.length; i++)
+		{
+		 	if (x[i].nodeName == "li" && x[i].className == "selected") {
+		 		console.log("if is true");
+		 	}
+		}
 	}
 
 	var ul = document.getElementById("choices")
 	var li = ul.getElementsByTagName("li");
-	li.addEventListener("click", selectAnswer(li), false);
+	for (var i = 0; i < li.length; i++) {
+		li[i].addEventListener("click", selectAnswer, false);
+		li[i].addEventListener("click", setUserChoice, false);
+	}
 };
 
 $(document).ready(function() {
