@@ -1,15 +1,5 @@
 /* Requirements:
 	1. Object to store questions. (this.questions)
-		a. Topic
-		b. Question
-		c. Choices
-			  i. choice 1
-			 ii. choice 2
-			iii. choice 3
-			 iv. choice 4
-		d. Answer
-		e. Explanation
-		f. Image
 	2. Array as long as number of questions (this.totalQuestions)
 	3. Variable to store the number of correct answer (this.totalCorrect)
 	4. Function to change the button appearance & text based on where the user is
@@ -21,7 +11,7 @@
 	10. Function that binds event handlers
 		a. button click to next
 		b. button click to submit
-		c. clicking an answer
+		c. clicking an answer (check)
 */
 
 // Initialize a blank object
@@ -92,6 +82,7 @@ quizApp.totalStages = quizApp.questions.length + 2;
 quizApp.currentQuestion = 0;
 quizApp.totalCorrect = 0;
 quizApp.userChoice = -1;
+quizApp.buttonText = "Start";
 
 
 // METHODS
@@ -103,6 +94,10 @@ quizApp.bindUI = function() {
 		li[i].addEventListener("click", selectAnswer, false);
 		li[i].addEventListener("click", setUserChoice, false);
 	}
+
+	// Handle click events for button
+	var button = document.getElementById("button");
+	button.addEventListener("click", processClick, false);
 
 	function selectAnswer(e) {
 		// Clear class name from every answer
@@ -121,6 +116,44 @@ quizApp.bindUI = function() {
 		// Store which answer that user clicks
 		userChoice = e.target.id;
 	}
+
+	function processClick(e) {
+		console.log("processClick fired");
+		switch(quizApp.buttonText) {
+			case "Start":
+				console.log("processClick: Start");
+				quizApp.currentQuestion++;
+				quizApp.buttonText = "Submit";
+				quizApp.render();
+				break;
+			case "Submit":
+				console.log("processClick: Submit");
+				processInput();
+				quizApp.buttonText = "Next";
+				// updateButton(quizApp.buttonText);
+				break;
+			default:
+				console.log("Button clicked, but text is invalid.");
+				console.log(quizApp.buttonText);
+		}
+	}
+
+	function processInput(e) {
+		console.log("processInput fired");
+		console.log("userChoice is " + quizApp.userChoice);
+		console.log("answer is " + quizApp.questions[quizApp.currentQuestion].answer);
+		if (quizApp.userChoice == quizApp.questions[quizApp.currentQuestion].answer)
+		{
+			console.log("processInput true");
+			quizApp.totalCorrect++;
+			document.getElementById("feedback").innerHTML = "Correct!";
+		}
+		else
+		{
+			console.log("processInput false");
+		}
+		quizApp.render().renderExplanation();
+	}
 };
 
 quizApp.render = function() {
@@ -128,7 +161,8 @@ quizApp.render = function() {
 	if (quizApp.currentQuestion == 0)
 	{
 		// ...show start slide
-		showStart();
+		renderStart();
+		renderButton(quizApp.buttonText);
 	}
 	// If user is at the very end...
 	//else if (currentQuestion == totalStages.length + 1)
@@ -137,30 +171,69 @@ quizApp.render = function() {
 		//showResult();
 	//}
 	// Show questions slide by default
-	//else
-	//{
-		//showQuestions();
-	//}
+	else
+	{
+		renderQuestions();
+		updateButton(quizApp.buttonText);
+		renderButton();
+	}
 
-	function showStart() {
+	// Show intro/starting slide
+	function renderStart() {
 		document.getElementById("start").className = "";
 		document.getElementById("result").className = "hidden";
 		document.getElementById("questions").className = "invisible";
 	}
 
-	// function showResult() {
-	// 	document.getElementById("start").className = "hidden";
-	// 	document.getElementById("result").className = "";
-	// 	document.getElementById("questions").className = "invisible";
-	// }
+	 function showResult() {
+	 	document.getElementById("start").className = "hidden";
+	 	document.getElementById("result").className = "";
+	 	document.getElementById("questions").className = "invisible";
+	 }
 
-	// function showQuestions() {
-	// 	document.getElementById("start").className = "hidden";
-	// 	document.getElementById("result").className = "hidden";
-	// 	document.getElementById("questions").className = "";
-	// }
+	// Show question slide
+	function renderQuestions() {
+		document.getElementById("start").className = "hidden";
+		document.getElementById("result").className = "hidden";
+		document.getElementById("questions").className = "";
+	}
+
+	// Update button text on DOM
+	function updateButton(text) {
+		document.getElementById("button_text").innerHTML = text;
+	}
+
+	// Display appropriate button style according to the text
+	function renderButton() {
+		switch (quizApp.buttonText) {
+			case "Start":
+				document.getElementById("button_container").style.width = "100%";
+				document.getElementById("button_container").className = ""; /* First time, button was invisible */
+				break;
+			case "Submit":
+				document.getElementById("button_container").style.width = "80%";
+				break;
+			case "Next":
+				document.getElementById("button_text").innerHTML = text;
+				break;
+			case "Start over":
+				document.getElementById("button_container").style.width = "100%";
+				document.getElementById("button_container").className = "";
+				break;
+			default:
+				console.log("Invalid text for button.");
+		}
+	}
+
+	function renderExplanation() {
+		console.log("renderExplanation fired");
+		document.getElementById("explanation").style.top = "0";
+		document.getElementById("feedback").className = "";
+		document.getElementById("explanation_p").className = "";
+	}
 };
 
 $(document).ready(function() {
-	//quizApp.bindUI();
+	quizApp.bindUI();
+	quizApp.render();
 });
