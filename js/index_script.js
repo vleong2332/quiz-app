@@ -21,13 +21,13 @@ var quizApp = {};
 quizApp.questions = [
 	{
 		"topic": "HTML",
-		"question": "Almost all tags need to be closed. For example, <div> must be closed with </div>. However, there are few exclusions to the rule. Which one of these tags does not need closing (self-closing)?",
-		"choices": ["</p>",
-					"<div>",
-					"<img>",
-					"<button>"],
+		"question": "Almost all tags need to be closed. For example, &#60div&#62 must be closed with &#60/div&#62. However, there are few exclusions to the rule. Which one of these tags does not need closing (self-closing)?",
+		"choices": ["&#60/p&#62",
+					"&#60div&#62",
+					"&#60img&#62",
+					"&#60button&#62"],
 		"answer": 2,
-		"explanation": "<img> is one of the self-closing tags. Usually, you would write it as <img src=\”some_url.pic\” />. See the list of self-closing tags right here.",
+		"explanation": "&#60img&#62 is one of the self-closing tags. Usually, you would write it as &#60img src=\”some_url.pic\” /&#60. See the list of self-closing tags right here.",
 		"image": ""
 	},
 	{
@@ -78,7 +78,7 @@ quizApp.questions = [
 
 
 // VARIABLES
-quizApp.totalStages = quizApp.questions.length + 2;
+quizApp.totalStages = quizApp.questions.length + 1;
 quizApp.currentQuestion = 0;
 quizApp.totalCorrect = 0;
 quizApp.userChoice = -1;
@@ -101,12 +101,9 @@ quizApp.bindUI = function() {
 
 	// Change the appearance of selected answer's icon
 	function selectAnswer(e) {
-		var x = e.target.parentNode.childNodes;
+		var x = e.target.parentNode.children;
 		for (var i = 0; i < x.length; i++) {
-			if (x[i].nodeName == "LI")
-			{ 
-				x[i].className = "";
-			}
+			x[i].className = "";
 		}
 		// Change the class name of the answer that user clicks
 		e.target.className = "selected";
@@ -114,9 +111,12 @@ quizApp.bindUI = function() {
 
 	// Store which answer that user clicks
 	function setUserChoice(e) {
-		userChoice = e.target.id;
+		console.log("setUserChoice fired")
+		quizApp.userChoice = e.target.id;
+		console.log(quizApp.userChoice);
 	}
 
+	// Decides what to do when user clicks the blue button
 	function processClick() {
 		console.log("processClick fired");
 		switch(quizApp.buttonText) {
@@ -132,9 +132,25 @@ quizApp.bindUI = function() {
 				quizApp.buttonText = "Next";
 				quizApp.updateButton(quizApp.buttonText);
 				break;
+			case "Next":
+				console.log("processClick: Next");
+				quizApp.hideExplanation();
+				quizApp.currentQuestion++;
+				quizApp.userChoice = -1;
+				quizApp.buttonText = "Submit";
+				quizApp.render();
+				break;
+			case "Start over":
+				console.log("processClick: Start over");
+				quizApp.currentQuestion = 1;
+				quizApp.totalCorrect = 0;
+				quizApp.userChoice = -1;
+				quizApp.buttonText = "Submit";
+				quizApp.updateButton(quizApp.buttonText);
+				quizApp.render();
 			default:
 				console.log("Button clicked, but text is invalid.");
-				console.log(quizApp.buttonText);
+				console.log("The text is " + quizApp.buttonText);
 		}
 	}
 };
@@ -144,19 +160,25 @@ quizApp.render = function() {
 	// If user is at the very beginning...
 	if (quizApp.currentQuestion == 0)
 	{
+		console.log("fall into renderStart");
 		// ...show start slide
 		renderStart();
 		quizApp.renderButton(quizApp.buttonText);
 	}
 	// If user is at the very end...
-	//else if (currentQuestion == totalStages.length + 1)
-	//{
+	else if (quizApp.currentQuestion == quizApp.totalStages)
+	{
+		console.log ("falls into renderResult");
 		// ...show result slide
-		//showResult();
-	//}
+		renderResult();
+		quizApp.buttonText = "Start over";
+		quizApp.updateButton(quizApp.buttonText);
+		quizApp.renderButton();
+	}
 	// Show questions slide by default
 	else
 	{
+		console.log("fall into renderQuestions");
 		renderQuestions();
 		quizApp.updateButton(quizApp.buttonText);
 		quizApp.renderButton();
@@ -169,7 +191,9 @@ quizApp.render = function() {
 		document.getElementById("questions").className = "invisible";
 	}
 
-	 function renderResult() {
+	// Show result slide
+	function renderResult() {
+	 	quizApp.getScore();
 	 	document.getElementById("start").className = "hidden";
 	 	document.getElementById("result").className = "";
 	 	document.getElementById("questions").className = "invisible";
@@ -177,6 +201,10 @@ quizApp.render = function() {
 
 	// Show question slide
 	function renderQuestions() {
+		quizApp.loadQuestion();
+		if (quizApp.currentQuestion >= 2) {
+			quizApp.resetAnswer();
+		}
 		document.getElementById("start").className = "hidden";
 		document.getElementById("result").className = "hidden";
 		document.getElementById("questions").className = "";
@@ -187,8 +215,8 @@ quizApp.render = function() {
 quizApp.processInput = function() {
 	console.log("processInput fired");
 	console.log("userChoice is " + quizApp.userChoice);
-	console.log("answer is " + quizApp.questions[quizApp.currentQuestion].answer);
-	if (quizApp.userChoice == quizApp.questions[quizApp.currentQuestion].answer)
+	console.log("answer is " + quizApp.questions[quizApp.currentQuestion - 1].answer);
+	if (quizApp.userChoice == quizApp.questions[quizApp.currentQuestion - 1].answer)
 	{
 		console.log("processInput true");
 		quizApp.totalCorrect++;
@@ -204,11 +232,13 @@ quizApp.processInput = function() {
 
 // Update the text inside the blue button
 quizApp.updateButton = function(text) {
+	console.log("updating button");
 	document.getElementById("button_text").innerHTML = text;
 };
 
 // Display appropriate button style according to the text
 quizApp.renderButton = function() {
+	console.log ("rendering button");
 	switch (quizApp.buttonText) {
 		case "Start":
 			document.getElementById("button_container").style.width = "100%";
@@ -231,22 +261,47 @@ quizApp.renderButton = function() {
 
 // Display explanation by modifying its style
 quizApp.renderExplanation = function() {
-	var top = document.getElementById("explanation").style.top;
-	console.log("renderExplanation fired");
-	console.log(top);
-	if (top == 0)
-	{
-
-	}
-	else
-	{
-		document.getElementById("explanation").style.top = "0";
-		document.getElementById("feedback").className = "";
-		document.getElementById("explanation_p").className = "";
-	}
+	console.log("rendering explanation");
+	document.getElementById("explanation").style.top = "0";
+	document.getElementById("feedback").className = "";
+	document.getElementById("explanation_content").className = "";
 };
 
+// Put explanation out of sight
+quizApp.hideExplanation = function() {
+	console.log("hiding explanation");
+	document.getElementById("explanation").style.top = "100%";
+	document.getElementById("feedback").className = "invisible";
+	document.getElementById("explanation_content").className = "invisible";
+}
 
+// Reset the appearance of selected answer's icon
+quizApp.resetAnswer = function() {
+	console.log("resetting answers");
+	var answers = document.getElementById('choices').children;
+		for (var i = 0; i < answers.length; i++) {
+			answers[i].className = "";
+		}
+};
+
+// Load question from object to the page
+quizApp.loadQuestion = function() {
+	console.log("loading questions");
+	var q = quizApp.questions[quizApp.currentQuestion - 1];
+	document.getElementById("topic_content").innerHTML = q.topic;
+	document.getElementById("question_content").innerHTML = q.question;
+	document.getElementById("explanation_content").innerHTML = q.explanation;
+	var c = document.getElementById('choices').children;
+	for (var i = 0; i < c.length; i++) {
+		c[i].innerHTML = q.choices[i];
+	}
+}
+
+quizApp.getScore = function() {
+	// Compute the final score
+	document.getElementById("total_score").innerHTML = quizApp.totalCorrect;
+	// NEXT: Print recommendation based on score
+}
 
 
 $(document).ready(function() {

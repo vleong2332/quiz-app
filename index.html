@@ -36,7 +36,7 @@
 		<div class="container">
 			<div class="tight">
 				<h2>Your score is</h2>
-				<h2><span id="total_score">3</span> / 5</h2>
+				<h2><span id="total_score">0</span> / 5</h2>
 				<p id="recommendation">Feel free to move to the next unit.</p>
 			</div>
 		</div>
@@ -55,22 +55,22 @@
 			<!-- Space for Questions and Answers -->
 			<div id="qna">
 				<div id="question">
-					<p>Topic: <span id="topic_content">HTML</span></p>
-					<p class="question">Almost all tags need to be closed. For example, &#60div&#62 must be closed with &#60/div&#62. However, there are few exclusions to the rule. Which one of these tags does not need closing (self-closing)?</p>
+					<p>Topic: <span id="topic_content"></span></p>
+					<p id="question_content" class="question"></p>
 				</div>
 				<!-- Alternating section between choices and explanation -->
 				<div id="alternate">
 					<div id="mult_choice" class="">
 						<ul id="choices">
-							<li id="1">&#60p&#62</li>
-							<li id="2">&#60img&#62</li>
-							<li id="3">&#60h1&#62</li>
-							<li id="4">&#60button&#62</li>
+							<li id="1"></li>
+							<li id="2"></li>
+							<li id="3"></li>
+							<li id="4"></li>
 						</ul>
 					</div>
 					<div id="explanation" class="">
 						<h4 id="feedback" class="invisible"></h4>
-						<p id="explanation_p" class="invisible">&#60img&#62 is one of the self-closing tags. Usually, you would write it as &#60img src="some_url.pic" /&#62. See the list of self-closing tags right <a href="#" target="_blank">here</a>.</p>
+						<p id="explanation_content" class="invisible"></a>.</p>
 					</div>
 				</div>
 			</div>
